@@ -1,0 +1,18 @@
+sudo: required
+services:
+  - docker
+language: node_js
+node_js:
+  - '11'
+before_install:
+  - docker -v
+  - docker build -t hapi-backend-template .
+  - docker run hapi-backend-template /bin/sh -c "npm run test"
+install:
+before_script:
+script:
+  - npm run test
+after_script:
+notifications:
+  # email:
+  #   - add email address here where notifications are sent of build failures
