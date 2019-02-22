@@ -1,0 +1,7 @@
+.env
+
+# jest coverage (which includes coverage in html form)
+coverage/
+node_modules/
+
+.DS_Store
