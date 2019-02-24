@@ -1,0 +1,9 @@
+{
+  "lastRun": "1550913097332-add-users.js",
+  "migrations": [
+    {
+      "title": "1550913097332-add-users.js",
+      "timestamp": 1550916820768
+    }
+  ]
+}

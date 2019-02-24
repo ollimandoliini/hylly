@@ -8,12 +8,15 @@
     "start:prod": "ts-node src/index.ts",
     "test": "jest --coverage",
     "test:watch": "jest --watch --coverage",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "migrate": "node-pg-migrate"
   },
   "dependencies": {
     "@types/hapi": "^17.0.12",
     "@types/inert": "^5.1.1",
     "@types/joi": "^13.3.0",
+    "@types/knex": "^0.15.2",
+    "@types/node": "^11.9.5",
     "@types/node-fetch": "^2.1.2",
     "@types/vision": "^5.3.4",
     "@types/winston": "^2.3.9",
@@ -25,7 +28,10 @@
     "good-squeeze": "^5.1.0",
     "hapi": "^17.5.1",
     "joi": "^13.4.0",
+    "knex": "^0.16.3",
     "node-fetch": "^2.1.2",
+    "node-pg-migrate": "^3.16.0",
+    "pg": "^7.8.1",
     "typescript": "^3.0.1",
     "winston": "^3.0.0"
   },
