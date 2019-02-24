@@ -1,14 +1,3 @@
-// import { internal } from 'boom'
-
-// export async function getUserCollections(userid: number) {
-//   const collections = await pg
-//     .raw('SELECT * from "collections" where "userId" = ?', [userid])
-//     .finally(() => {
-//       pg.destroy()
-//     })
-//   return collections.rows
-// }
-
 const db = process.env.DATABASE_URL
 const pg = require('knex')({
   client: 'pg',
@@ -29,12 +18,25 @@ export default async function getCollection(id: string) {
     return err
   }
 }
+// export async function getUserCollections(userid: string) {
+//   try {
+//     const id = parseInt(userid)
+//     const collections = await pg
+//       .raw('SELECT * from "collections" where "userId" = ?', [id])
+//       .finally(() => {
+//         pg.destroy()
+//       })
+//     return collections.rows
+//   } catch (err) {
+//     return err
+//   }
+// }
 
-async function foo() {
-  const bar = await getCollection('2')
-  console.log(bar)
-}
-foo()
+// async function foo() {
+//   const bar = await getCollection('2')
+//   console.log(bar)
+// }
+// foo()
 
 // export async function createCollection(userId: number, title: string) {
 //   try {
