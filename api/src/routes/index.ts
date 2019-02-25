@@ -1,35 +1,53 @@
 import { ServerRoute } from 'hapi';
 
-// import { requestSchema } from 'src/features/hello/handler'
-import { getCollectionHandler, getUserCollectionsHandler } from '../features/collections/handler'; // requestSchema
+import { newCollectionSchema, updateCollectionSchema } from 'src/features/collections/handler';
+import {
+  getCollectionHandler,
+  getUserCollectionsHandler,
+  createCollectionHandler,
+  updateCollectionHandler,
+  deleteCollectionHandler
+} from '../features/collections/handler'; // requestSchema
+// import { request } from 'https';
+// import { HeapInfo } from 'v8';
 require('dotenv');
 
 const routes: ServerRoute[] = [
   {
     method: 'GET',
-    path: '/collections/{id}',
-    handler: getCollectionHandler,
-    // options: {
-    //   tags: ['api'],
-    //   description: 'Collections GET endpoint',
-    //   // validate: {
-    //   //   payload: requestSchema
-    //   // },
-    //   plugins: {
-    //     'hapi-swagger': {
-    //       responses: {
-    //         200: { message: 'Collections ok' },
-    //         400: { message: 'Bad request, check your request body' }
-    //       }
-    //     }
-    //   }
-    // }
+    path: '/collections/user/{id}',
+    handler: getUserCollectionsHandler
   },
   {
     method: 'GET',
-    path: '/collections/user/{id}',
-    handler: getUserCollectionsHandler,
+    path: '/collections/{id}',
+    handler: getCollectionHandler
   },
+  {
+    method: 'POST',
+    path: '/collections/',
+    handler: createCollectionHandler,
+    options: {
+      validate: {
+        payload: newCollectionSchema
+      }
+    }
+  },
+  {
+    method: 'PUT',
+    path: '/collections/',
+    handler: updateCollectionHandler,
+    options: {
+      validate: {
+        payload: updateCollectionSchema
+      }
+    }
+  },
+  {
+    method: 'DELETE',
+    path: '/collections/{id}',
+    handler: deleteCollectionHandler
+  }
 ];
 
 export default routes;

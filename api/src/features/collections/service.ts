@@ -21,26 +21,30 @@ export async function getUserCollections(userid: string) {
   return collections.rows;
 }
 
-export async function createCollection(userId: number, title: string) {
+export async function createCollection(userId: number, title: string, description: string) {
   const newCollection = await pg.raw(
-    'INSERT INTO "collections" ("userId", "title") VALUES ( :userId, :title) RETURNING *',
-    { userId: userId, title: title }
+    'INSERT INTO "collections" ("userId", "title", "description") VALUES ( :userId, :title, :description) RETURNING *',
+    { userId: userId, title: title, description: description }
   );
 
   return newCollection.rows;
 }
 
-export async function updateCollection(id: number, newTitle: string) {
-  const updatedCollection = await pg.raw('UPDATE "collections" SET title = :title WHERE id = :id RETURNING *', {
-    id: id,
-    title: newTitle
-  });
+export async function updateCollection(id: number, newUserId: number, newTitle: string, newDescription: string) {
+  const updatedCollection = await pg.raw(
+    'UPDATE "collections" SET "userId" = :userId, "title" = :title, "description" = :description WHERE id = :id RETURNING *',
+    {
+      id: id,
+      userId: newUserId,
+      title: newTitle,
+      description: newDescription
+    }
+  );
   return updatedCollection.rows;
 }
 
-export async function removeCollection(id: number) {
-  const removeCollection = await pg.raw('DELETE FROM "collections" WHERE id = ? RETURNING *', [id]).finally(() => {
-    pg.destroy();
-  });
+export async function deleteCollection(id: string) {
+  const collectionId = parseInt(id);
+  const removeCollection = await pg.raw('DELETE FROM "collections" WHERE id = ? RETURNING *', [collectionId]);
   return removeCollection;
 }
