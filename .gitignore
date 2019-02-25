@@ -1,5 +1,5 @@
 .env
-
+*.log
 # jest coverage (which includes coverage in html form)
 coverage/
 node_modules/

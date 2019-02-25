@@ -1,85 +1,46 @@
-const db = process.env.DATABASE_URL
-const pg = require('knex')({
-  client: 'pg',
-  connection: db,
+import * as Knex from 'knex';
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+const config = {
+  client: 'postgres',
+  connection: process.env.DATABASE_URL,
   searchPath: ['knex', 'public']
-})
+};
+const pg = Knex(config);
 
-export default async function getCollection(id: string) {
-  try {
-    const collectionId = parseInt(id)
-    const collection = await pg
-      .raw('SELECT * from "collections" where id = ?', [collectionId])
-      .finally(() => {
-        pg.destroy()
-      })
-    return collection.rows
-  } catch (err) {
-    return err
-  }
+export async function getCollection(id: string) {
+  const collectionId = parseInt(id);
+  const collection = await pg.raw('SELECT * from "collections" where id = ?', [collectionId]);
+  return collection.rows;
 }
-// export async function getUserCollections(userid: string) {
-//   try {
-//     const id = parseInt(userid)
-//     const collections = await pg
-//       .raw('SELECT * from "collections" where "userId" = ?', [id])
-//       .finally(() => {
-//         pg.destroy()
-//       })
-//     return collections.rows
-//   } catch (err) {
-//     return err
-//   }
-// }
 
-// async function foo() {
-//   const bar = await getCollection('2')
-//   console.log(bar)
-// }
-// foo()
+export async function getUserCollections(userid: string) {
+  const id = parseInt(userid);
+  const collections = await pg.raw('SELECT * from "collections" where "userId" = ?', [id]);
+  return collections.rows;
+}
 
-// export async function createCollection(userId: number, title: string) {
-//   try {
-//     const newCollection = await pg
-//       .raw(
-//         'INSERT INTO "collections" ("userId", "title") VALUES ( :userId, :title) RETURNING *',
-//         { userId: userId, title: title }
-//       )
-//       .finally(() => pg.destroy())
-//     return newCollection.rows
-//   } catch (error) {
-//     internal(error)
-//   }
-// }
+export async function createCollection(userId: number, title: string) {
+  const newCollection = await pg.raw(
+    'INSERT INTO "collections" ("userId", "title") VALUES ( :userId, :title) RETURNING *',
+    { userId: userId, title: title }
+  );
 
-// export async function updateCollection(id: number, newTitle: string) {
-//   try {
-//     const updatedCollection = await pg
-//       .raw(
-//         'UPDATE "collections" SET title = :title WHERE id = :id RETURNING *',
-//         {
-//           id: id,
-//           title: newTitle
-//         }
-//       )
-//       .finally(() => {
-//         pg.destroy()
-//       })
-//     return updatedCollection.rows
-//   } catch (error) {
-//     internal(error)
-//   }
-// }
+  return newCollection.rows;
+}
 
-// export async function removeCollection(id: number) {
-//   try {
-//     const removeCollection = await pg
-//       .raw('DELETE FROM "collections" WHERE id = ? RETURNING *', [id])
-//       .finally(() => {
-//         pg.destroy()
-//       })
-//     return removeCollection
-//   } catch (error) {
-//     internal(error)
-//   }
-// }
+export async function updateCollection(id: number, newTitle: string) {
+  const updatedCollection = await pg.raw('UPDATE "collections" SET title = :title WHERE id = :id RETURNING *', {
+    id: id,
+    title: newTitle
+  });
+  return updatedCollection.rows;
+}
+
+export async function removeCollection(id: number) {
+  const removeCollection = await pg.raw('DELETE FROM "collections" WHERE id = ? RETURNING *', [id]).finally(() => {
+    pg.destroy();
+  });
+  return removeCollection;
+}

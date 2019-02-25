@@ -7,7 +7,7 @@ exports.up = pgm => {
       notNull: true,
       default: pgm.func('current_timestamp')
     }
-  })
+  });
   pgm.createTable('collections', {
     id: 'id',
     userId: {
@@ -22,6 +22,6 @@ exports.up = pgm => {
       notNull: true,
       default: pgm.func('current_timestamp')
     }
-  })
-  pgm.createIndex('collections', 'userId')
-}
+  });
+  pgm.createIndex('collections', 'userId');
+};
