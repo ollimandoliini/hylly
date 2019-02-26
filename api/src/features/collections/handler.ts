@@ -3,6 +3,10 @@ import * as Joi from 'joi';
 import { getCollection, getUserCollections, createCollection, updateCollection, deleteCollection } from './service';
 import { NewCollectionRequest, UpdateCollectionRequest } from '../../interfaces/collectionrequest';
 
+export async function serverHealthHandler(request: Hapi.Request, h: Hapi.ResponseToolkit) {
+  return h.response({ status: 'ok' }).code(200);
+}
+
 export async function getUserCollectionsHandler(request: Hapi.Request, h: Hapi.ResponseToolkit) {
   const collectionId = request.params.id;
   const collection = await getUserCollections(collectionId);
@@ -11,7 +15,7 @@ export async function getUserCollectionsHandler(request: Hapi.Request, h: Hapi.R
 export async function getCollectionHandler(request: Hapi.Request, h: Hapi.ResponseToolkit) {
   const collectionId = request.params.id;
   const collection = await getCollection(collectionId);
-  return h.response({ message: 'moro', collection }).code(200);
+  return h.response(collection).code(200);
 }
 export async function createCollectionHandler(request: NewCollectionRequest, h: Hapi.ResponseToolkit) {
   const userId = request.payload.userId;

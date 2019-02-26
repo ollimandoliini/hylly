@@ -2,6 +2,7 @@ import { ServerRoute } from 'hapi';
 
 import { newCollectionSchema, updateCollectionSchema } from 'src/features/collections/handler';
 import {
+  serverHealthHandler,
   getCollectionHandler,
   getUserCollectionsHandler,
   createCollectionHandler,
@@ -13,6 +14,11 @@ import {
 require('dotenv');
 
 const routes: ServerRoute[] = [
+  {
+    method: 'GET',
+    path: '/',
+    handler: serverHealthHandler
+  },
   {
     method: 'GET',
     path: '/collections/user/{id}',
