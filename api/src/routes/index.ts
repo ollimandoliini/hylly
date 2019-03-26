@@ -9,6 +9,7 @@ import {
   updateCollectionHandler,
   deleteCollectionHandler
 } from '../features/collections/handler'; // requestSchema
+import { getCollectionItemsHandler } from 'src/features/items/handler';
 // import { request } from 'https';
 // import { HeapInfo } from 'v8';
 require('dotenv');
@@ -53,7 +54,8 @@ const routes: ServerRoute[] = [
     method: 'DELETE',
     path: '/collections/{id}',
     handler: deleteCollectionHandler
-  }
+  },
+  { method: 'GET', path: '/items/{collectionId}', handler: getCollectionItemsHandler }
 ];
 
 export default routes;

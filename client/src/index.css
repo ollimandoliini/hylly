@@ -41,17 +41,3 @@ footer {
   max-width: 400px;
   margin: 20px;
 }
-
-.collectionBtn {
-  height: 160px;
-  width: 160px;
-  flex-grow: 1;
-  border: 10px solid rgb(48, 44, 30);
-  padding: 5px;
-}
-.collectionBtn:nth-child(even) {
-  border-left-width: 5px;
-}
-.collectionBtn:nth-child(odd) {
-  border-right-width: 5px;
-}

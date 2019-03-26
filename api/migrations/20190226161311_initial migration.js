@@ -41,13 +41,28 @@ exports.up = function(knex, Promise) {
       t.string('field_name').notNull();
       t.index('collection_id');
     }),
-    knex('users').insert({ id: 1, name: 'testuser' }),
-    knex('collections').insert({ user_id: 1, title: 'test', description: 'test collection' })
+    knex.schema.createTable('items', function(t) {
+      t.increments('id')
+        .unsigned()
+        .primary();
+      t.integer('collection_id')
+        .unsigned()
+        .notNull();
+      t.foreign('collection_id')
+        .references('id')
+        .on('collections')
+        .onDelete('CASCADE');
+      t.string('title').notNull();
+      t.string('description').nullable();
+      t.datetime('created_at').defaultTo(knex.fn.now());
+      t.index('collection_id');
+    })
   ]);
 };
 
 exports.down = function(knex, Promise) {
   return Promise.all([
+    knex.schema.dropTable('items'),
     knex.schema.dropTable('additional_collection_fields'),
     knex.schema.dropTable('collections'),
     knex.schema.dropTable('users')
